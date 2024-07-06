@@ -53,7 +53,13 @@ export default function Welcome({
                                 "mt-10 flex items-center justify-center gap-x-6"
                             )}
                         >
-                            <Button variant="shadow" color="primary" size="lg">
+                            <Button
+                                as="a"
+                                href={route("permissions.create") as string}
+                                variant="shadow"
+                                color="primary"
+                                size="lg"
+                            >
                                 Get started
                             </Button>
                             <Button variant="light" size="lg">

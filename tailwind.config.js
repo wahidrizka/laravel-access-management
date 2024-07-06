@@ -34,7 +34,6 @@ export default {
     },
 
     plugins: [
-        forms,
         nextui({
             themes: {
                 light: {
