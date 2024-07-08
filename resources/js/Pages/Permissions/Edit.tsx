@@ -1,12 +1,16 @@
+import { PermissionTypes } from "@/types";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { BreadcrumbItem, Breadcrumbs, Button, Input } from "@nextui-org/react";
 import clsx from "clsx";
-import { useState } from "react";
 
-export default function CreatePermission() {
-    const { data, setData, post, processing, errors, clearErrors } = useForm({
-        name: "",
+export default function EditPermission({
+    permission,
+}: {
+    permission: PermissionTypes;
+}) {
+    const { data, setData, put, processing, errors, clearErrors } = useForm({
+        name: permission.name,
     });
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,8 +20,9 @@ export default function CreatePermission() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        post(route("permissions.store"));
+        put(route("permissions.update", permission.id));
     };
+
     return (
         <>
             <Head title="Permissions" />
@@ -58,7 +63,7 @@ export default function CreatePermission() {
                                         Home
                                     </Link>
                                 </BreadcrumbItem>
-                                <BreadcrumbItem>Create</BreadcrumbItem>
+                                <BreadcrumbItem>Edit</BreadcrumbItem>
                             </Breadcrumbs>
                         </div>
 
@@ -73,7 +78,7 @@ export default function CreatePermission() {
                                         "text-2xl font-bold leading-7 text-slate-900 sm:truncate sm:text-3xl sm:tracking-tight"
                                     )}
                                 >
-                                    Create new permission
+                                    Edit permission
                                 </h2>
                             </div>
                         </div>
@@ -123,7 +128,7 @@ export default function CreatePermission() {
                                 color="primary"
                                 isLoading={processing}
                             >
-                                Save
+                                Update
                             </Button>
                         </div>
                     </form>

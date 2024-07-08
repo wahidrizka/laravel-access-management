@@ -11,7 +11,11 @@ class PermissionController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Permissions/Index');
+        $permissions = Permission::all();
+
+        return Inertia::render('Permissions/Index', [
+            'permissions' => $permissions,
+        ]);
     }
 
     public function create()
@@ -29,20 +33,27 @@ class PermissionController extends Controller
             'name' => $request->name
         ]);
 
-        return redirect()->route('permissions.create')->with([
-            'flash' => [
-                'type' => 'success',
-                'message' => 'Permission created successfully'
-            ]
+        return Redirect::route('permissions.index');
+    }
+
+    public function edit(Permission $permission)
+    {
+        return Inertia::render('Permissions/Edit', [
+            'permission' => $permission
         ]);
     }
 
-    public function edit()
+    public function update(Request $request, Permission $permission)
     {
-    }
+        $request->validate([
+            'name' => ['required', 'string', 'unique:permissions,name,' . $permission->id]
+        ]);
 
-    public function update()
-    {
+        $permission->update([
+            'name' => $request->name
+        ]);
+
+        return Redirect::route('permissions.index');
     }
 
     public function destroy()
