@@ -19,7 +19,7 @@ import {
 import clsx from "clsx";
 import { useState } from "react";
 
-export default function Permission({
+export default function Permissions({
     permissions,
 }: {
     permissions: PermissionTypes[];
@@ -30,7 +30,6 @@ export default function Permission({
         setData,
         delete: destroy,
         processing,
-        errors,
     } = useForm({
         id: permissionId,
     });
