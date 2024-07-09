@@ -56,7 +56,10 @@ class PermissionController extends Controller
         return Redirect::route('permissions.index');
     }
 
-    public function destroy()
+    public function destroy(Request $request)
     {
+        Permission::destroy($request->permission);
+
+        return Redirect::route('permissions.index');
     }
 }

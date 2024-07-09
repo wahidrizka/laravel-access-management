@@ -1,7 +1,7 @@
 import { capitalizeFirstLetter, formatDate } from "@/libs/utils";
 import { PermissionTypes } from "@/types";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import {
     Button,
     Chip,
@@ -26,15 +26,29 @@ export default function Permission({
 }) {
     const [permissionId, setPermissionId] = useState<number | null>(null);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const {
+        setData,
+        delete: destroy,
+        processing,
+        errors,
+    } = useForm({
+        id: permissionId,
+    });
 
     const handleOpen = (id: number) => {
         setPermissionId(id);
+        setData({ id });
         onOpen();
     };
 
     const handleDelete = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.info("delete cuyyyy", permissionId);
+        destroy(route("permissions.destroy", { id: permissionId }), {
+            onSuccess: () => {
+                onOpenChange(false);
+                setPermissionId(null);
+            },
+        });
     };
     return (
         <>
@@ -247,6 +261,9 @@ export default function Permission({
                                                             <Button
                                                                 type="submit"
                                                                 color="danger"
+                                                                isLoading={
+                                                                    processing
+                                                                }
                                                             >
                                                                 Delete
                                                             </Button>
