@@ -1,3 +1,4 @@
+import { Layout } from "@/Layouts";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { BreadcrumbItem, Breadcrumbs, Button, Input } from "@nextui-org/react";
@@ -18,106 +19,102 @@ export default function CreatePermission() {
         post(route("roles.store"));
     };
     return (
-        <>
+        <Layout>
             <Head title="Create Role" />
-            <main className={clsx("bg-slate-50 p-8 min-h-screen")}>
-                <div className={clsx("mx-auto max-w-7xl")}>
-                    <div></div>
+            <div className={clsx("mx-auto max-w-7xl py-6 sm:px-6 lg:px-8")}>
+                <div></div>
 
+                <div>
                     <div>
-                        <div>
-                            <Breadcrumbs
-                                aria-label="Back"
-                                className={clsx("sm:hidden")}
-                            >
-                                <BreadcrumbItem
-                                    as={Link}
-                                    href={route("roles.index") as string}
-                                    startContent={
-                                        <ChevronLeftIcon
-                                            className={clsx("size-4")}
-                                        />
-                                    }
-                                >
-                                    Back
-                                </BreadcrumbItem>
-                            </Breadcrumbs>
-
-                            <Breadcrumbs aria-label="Breadcrumb">
-                                <BreadcrumbItem
-                                    as={Link}
-                                    href={route("roles.index") as string}
-                                >
-                                    Home
-                                </BreadcrumbItem>
-                                <BreadcrumbItem>Create</BreadcrumbItem>
-                            </Breadcrumbs>
-                        </div>
-
-                        <div
-                            className={clsx(
-                                "mt-2 md:flex md:items-center md:justify-between"
-                            )}
+                        <Breadcrumbs
+                            aria-label="Back"
+                            className={clsx("sm:hidden")}
                         >
-                            <div className={clsx("min-w-0 flex-1")}>
-                                <h2
-                                    className={clsx(
-                                        "text-2xl font-bold leading-7 text-slate-900 sm:truncate sm:text-3xl sm:tracking-tight"
-                                    )}
-                                >
-                                    Create new roles
-                                </h2>
-                            </div>
-                        </div>
+                            <BreadcrumbItem
+                                href={route("roles.index") as string}
+                                startContent={
+                                    <ChevronLeftIcon
+                                        className={clsx("size-4")}
+                                    />
+                                }
+                            >
+                                Back
+                            </BreadcrumbItem>
+                        </Breadcrumbs>
+
+                        <Breadcrumbs aria-label="Breadcrumb">
+                            <BreadcrumbItem
+                                href={route("roles.index") as string}
+                            >
+                                Home
+                            </BreadcrumbItem>
+                            <BreadcrumbItem>Create</BreadcrumbItem>
+                        </Breadcrumbs>
                     </div>
 
-                    <form
-                        onSubmit={handleSubmit}
+                    <div
                         className={clsx(
-                            "mt-6 bg-white shadow-sm ring-1 ring-slate-900/5 sm:rounded-xl"
+                            "mt-2 md:flex md:items-center md:justify-between"
                         )}
                     >
-                        <div className={clsx("px-4 py-6 sm:p-8")}>
-                            <div
+                        <div className={clsx("min-w-0 flex-1")}>
+                            <h2
                                 className={clsx(
-                                    "grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
+                                    "text-2xl font-bold leading-7 text-slate-900 sm:truncate sm:text-3xl sm:tracking-tight"
                                 )}
                             >
-                                <Input
-                                    className={clsx("sm:col-span-4")}
-                                    type="text"
-                                    variant="bordered"
-                                    label="Role name"
-                                    value={data.name}
-                                    onChange={handleNameChange}
-                                    isInvalid={!!errors.name}
-                                    errorMessage={errors.name}
-                                />
-                            </div>
+                                Create new roles
+                            </h2>
                         </div>
+                    </div>
+                </div>
+
+                <form
+                    onSubmit={handleSubmit}
+                    className={clsx(
+                        "mt-6 bg-white shadow-sm ring-1 ring-slate-900/5 sm:rounded-xl"
+                    )}
+                >
+                    <div className={clsx("px-4 py-6 sm:p-8")}>
                         <div
                             className={clsx(
-                                "flex items-center justify-end gap-x-6 border-t border-slate-900/10 px-4 py-4 sm:px-8"
+                                "grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
                             )}
                         >
-                            <Button
-                                as={Link}
-                                href={route("roles.index") as string}
-                                variant="light"
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                type="submit"
-                                color="primary"
-                                isLoading={processing}
-                            >
-                                Save
-                            </Button>
+                            <Input
+                                className={clsx("sm:col-span-4")}
+                                type="text"
+                                variant="bordered"
+                                label="Role name"
+                                value={data.name}
+                                onChange={handleNameChange}
+                                isInvalid={!!errors.name}
+                                errorMessage={errors.name}
+                            />
                         </div>
-                    </form>
-                </div>
-            </main>
-        </>
+                    </div>
+                    <div
+                        className={clsx(
+                            "flex items-center justify-end gap-x-6 border-t border-slate-900/10 px-4 py-4 sm:px-8"
+                        )}
+                    >
+                        <Button
+                            as={Link}
+                            href={route("roles.index") as string}
+                            variant="light"
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            type="submit"
+                            color="primary"
+                            isLoading={processing}
+                        >
+                            Save
+                        </Button>
+                    </div>
+                </form>
+            </div>
+        </Layout>
     );
 }

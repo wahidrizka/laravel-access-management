@@ -28,12 +28,14 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
             )}
             <div className={clsx("mt-6")}>
                 <Button
+                    as={Link}
+                    href={href || "#"}
                     color="primary"
                     startContent={
                         <PlusIcon className={clsx("size-5 !-ml-0.5")} />
                     }
                 >
-                    <Link href={href || "#"}>New role</Link>
+                    New role
                 </Button>
             </div>
         </div>
