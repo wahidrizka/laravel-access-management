@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::resource('/permissions', PermissionController::class);
+Route::resource('/roles', RoleController::class);
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
