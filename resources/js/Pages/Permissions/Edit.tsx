@@ -25,7 +25,7 @@ export default function EditPermission({
 
     return (
         <>
-            <Head title="Permissions" />
+            <Head title="Edit permission" />
             <main className={clsx("bg-slate-50 p-8 min-h-screen")}>
                 <div className={clsx("mx-auto max-w-7xl")}>
                     <div></div>

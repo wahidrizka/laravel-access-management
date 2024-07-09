@@ -2,7 +2,6 @@ import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { BreadcrumbItem, Breadcrumbs, Button, Input } from "@nextui-org/react";
 import clsx from "clsx";
-import { useState } from "react";
 
 export default function CreatePermission() {
     const { data, setData, post, processing, errors, clearErrors } = useForm({
@@ -20,7 +19,7 @@ export default function CreatePermission() {
     };
     return (
         <>
-            <Head title="Permissions" />
+            <Head title="Create permission" />
             <main className={clsx("bg-slate-50 p-8 min-h-screen")}>
                 <div className={clsx("mx-auto max-w-7xl")}>
                     <div></div>
