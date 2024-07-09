@@ -11,10 +11,10 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $role = Role::all();
+        $roles = Role::all();
 
         return Inertia::render('Roles/Index', [
-            'role' => $role,
+            'roles' => $roles,
         ]);
     }
 
@@ -26,14 +26,14 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'unique:role,name']
+            'name' => ['required', 'string', 'unique:roles,name']
         ]);
 
         Role::create([
             'name' => $request->name
         ]);
 
-        return Redirect::route('role.index');
+        return Redirect::route('roles.index');
     }
 
     public function edit(Role $role)
@@ -46,20 +46,20 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         $request->validate([
-            'name' => ['required', 'string', 'unique:role,name,' . $role->id]
+            'name' => ['required', 'string', 'unique:roles,name,' . $role->id]
         ]);
 
         $role->update([
             'name' => $request->name
         ]);
 
-        return Redirect::route('role.index');
+        return Redirect::route('roles.index');
     }
 
     public function destroy(Request $request)
     {
         Role::destroy($request->role);
 
-        return Redirect::route('role.index');
+        return Redirect::route('roles.index');
     }
 }
