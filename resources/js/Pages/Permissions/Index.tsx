@@ -45,7 +45,7 @@ export default function Permission({
         e.preventDefault();
         destroy(route("permissions.destroy", { id: permissionId }), {
             onSuccess: () => {
-                onOpenChange(false);
+                onOpenChange();
                 setPermissionId(null);
             },
         });
