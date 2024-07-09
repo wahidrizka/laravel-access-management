@@ -37,31 +37,24 @@ export default function EditPermission({
                                 className={clsx("sm:hidden")}
                             >
                                 <BreadcrumbItem
+                                    as={Link}
+                                    href={route("permissions.index") as string}
                                     startContent={
                                         <ChevronLeftIcon
                                             className={clsx("size-4")}
                                         />
                                     }
                                 >
-                                    <Link
-                                        href={
-                                            route("permissions.index") as string
-                                        }
-                                    >
-                                        Back
-                                    </Link>
+                                    Back
                                 </BreadcrumbItem>
                             </Breadcrumbs>
 
                             <Breadcrumbs aria-label="Breadcrumb">
-                                <BreadcrumbItem>
-                                    <Link
-                                        href={
-                                            route("permissions.index") as string
-                                        }
-                                    >
-                                        Home
-                                    </Link>
+                                <BreadcrumbItem
+                                    as={Link}
+                                    href={route("permissions.index") as string}
+                                >
+                                    Home
                                 </BreadcrumbItem>
                                 <BreadcrumbItem>Edit</BreadcrumbItem>
                             </Breadcrumbs>
@@ -114,14 +107,11 @@ export default function EditPermission({
                             )}
                         >
                             <Button
+                                as={Link}
                                 href={route("permissions.index") as string}
                                 variant="light"
                             >
-                                <Link
-                                    href={route("permissions.index") as string}
-                                >
-                                    Cancel
-                                </Link>
+                                Cancel
                             </Button>
                             <Button
                                 type="submit"

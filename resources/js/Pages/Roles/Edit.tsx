@@ -33,23 +33,24 @@ export default function EditPermission({ role }: { role: PermissionTypes }) {
                                 className={clsx("sm:hidden")}
                             >
                                 <BreadcrumbItem
+                                    as={Link}
+                                    href={route("roles.index") as string}
                                     startContent={
                                         <ChevronLeftIcon
                                             className={clsx("size-4")}
                                         />
                                     }
                                 >
-                                    <Link href={route("roles.index") as string}>
-                                        Back
-                                    </Link>
+                                    Back
                                 </BreadcrumbItem>
                             </Breadcrumbs>
 
                             <Breadcrumbs aria-label="Breadcrumb">
-                                <BreadcrumbItem>
-                                    <Link href={route("roles.index") as string}>
-                                        Home
-                                    </Link>
+                                <BreadcrumbItem
+                                    as={Link}
+                                    href={route("roles.index") as string}
+                                >
+                                    Home
                                 </BreadcrumbItem>
                                 <BreadcrumbItem>Edit</BreadcrumbItem>
                             </Breadcrumbs>
@@ -102,12 +103,11 @@ export default function EditPermission({ role }: { role: PermissionTypes }) {
                             )}
                         >
                             <Button
+                                as={Link}
                                 href={route("roles.index") as string}
                                 variant="light"
                             >
-                                <Link href={route("roles.index") as string}>
-                                    Cancel
-                                </Link>
+                                Cancel
                             </Button>
                             <Button
                                 type="submit"

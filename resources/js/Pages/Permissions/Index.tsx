@@ -95,16 +95,16 @@ export default function Permissions({
                                             "ml-4 my-4 sm:mb-0 flex-shrink-0"
                                         )}
                                     >
-                                        <Button color="primary">
-                                            <Link
-                                                href={
-                                                    route(
-                                                        "permissions.create"
-                                                    ) as string
-                                                }
-                                            >
-                                                Create new permission
-                                            </Link>
+                                        <Button
+                                            color="primary"
+                                            as={Link}
+                                            href={
+                                                route(
+                                                    "permissions.create"
+                                                ) as string
+                                            }
+                                        >
+                                            Create new permission
                                         </Button>
                                     </div>
                                 </div>
