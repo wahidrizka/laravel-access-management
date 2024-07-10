@@ -12,7 +12,7 @@ import { usePage } from "@inertiajs/react";
 interface SidebarNavigationProps {}
 
 export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({}) => {
-    const { component } = usePage();
+    const { url, component } = usePage();
     return (
         <div
             className={clsx(
@@ -46,7 +46,10 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({}) => {
                                 </li>
                                 <li>
                                     <SidebarLink
-                                        isActive={component === "Roles/Index"}
+                                        isActive={
+                                            component === "Roles/Index" ||
+                                            url.includes("roles")
+                                        }
                                         href={route("roles.index") as string}
                                         startContent={
                                             <Cog6ToothIcon className="size-6" />
@@ -58,7 +61,8 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({}) => {
                                 <li>
                                     <SidebarLink
                                         isActive={
-                                            component === "Permissions/Index"
+                                            component === "Permissions/Index" ||
+                                            url.includes("permissions")
                                         }
                                         href={
                                             route("permissions.index") as string

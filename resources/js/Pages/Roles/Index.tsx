@@ -187,10 +187,20 @@ export default function Roles({ roles }: { roles: RoleTypes[] }) {
                                                         </button>
                                                     </DropdownTrigger>
                                                     <DropdownMenu>
-                                                        <DropdownItem key="view">
-                                                            View
+                                                        <DropdownItem
+                                                            as={Link}
+                                                            key="view"
+                                                            href={
+                                                                route(
+                                                                    "roles.show",
+                                                                    role.id
+                                                                ) as string
+                                                            }
+                                                        >
+                                                            View permissions
                                                         </DropdownItem>
                                                         <DropdownItem
+                                                            as={Link}
                                                             key="edit"
                                                             href={
                                                                 route(

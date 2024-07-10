@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -61,5 +63,33 @@ class RoleController extends Controller
         Role::destroy($request->role);
 
         return Redirect::route('roles.index');
+    }
+
+    public function show(Role $role)
+    {
+        $permissions = Permission::get();
+        $roleHasPermissions = DB::table("role_has_permissions as rhp")
+            ->join("permissions as p", "rhp.permission_id", "=", "p.id")
+            ->where("rhp.role_id", $role->id)
+            ->select("rhp.permission_id", "rhp.role_id", 'p.name as permission_name')
+            ->get();
+
+        return Inertia::render('Roles/Show', [
+            'role' => $role,
+            'permissions' => $permissions,
+            'roleHasPermissions' => $roleHasPermissions
+        ]);
+    }
+
+    public function updatePermissions(Request $request, $roleId)
+    {
+        $request->validate([
+            'permissions' => ['required', 'array']
+        ]);
+
+        $role = Role::findOrFail($roleId);
+        $role->syncPermissions($request->permissions);
+
+        return Redirect::back();
     }
 }

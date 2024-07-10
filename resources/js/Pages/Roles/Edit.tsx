@@ -1,11 +1,11 @@
 import { Layout } from "@/Layouts";
-import { PermissionTypes } from "@/types";
+import { RoleTypes } from "@/types";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { BreadcrumbItem, Breadcrumbs, Button, Input } from "@nextui-org/react";
 import clsx from "clsx";
 
-export default function EditPermission({ role }: { role: PermissionTypes }) {
+export default function EditRole({ role }: { role: RoleTypes }) {
     const { data, setData, put, processing, errors, clearErrors } = useForm({
         name: role.name,
     });

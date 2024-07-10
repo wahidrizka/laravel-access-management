@@ -21,6 +21,12 @@ export interface RoleTypes {
     updated_at: string;
 }
 
+export interface RoleHasPermissions {
+    permission_id: number;
+    role_id: number;
+    permission_name: string;
+}
+
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
 > = T & {

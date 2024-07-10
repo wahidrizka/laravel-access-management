@@ -4,7 +4,7 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import { BreadcrumbItem, Breadcrumbs, Button, Input } from "@nextui-org/react";
 import clsx from "clsx";
 
-export default function CreatePermission() {
+export default function CreateRole() {
     const { data, setData, post, processing, errors, clearErrors } = useForm({
         name: "",
     });
@@ -21,7 +21,7 @@ export default function CreatePermission() {
     return (
         <Layout>
             <Head title="Create Role" />
-            <div className={clsx("mx-auto max-w-7xl py-6 sm:px-6 lg:px-8")}>
+            <div className={clsx("mx-auto max-w-7xl py-6 px-6 lg:px-8")}>
                 <div></div>
 
                 <div>
@@ -42,7 +42,10 @@ export default function CreatePermission() {
                             </BreadcrumbItem>
                         </Breadcrumbs>
 
-                        <Breadcrumbs aria-label="Breadcrumb">
+                        <Breadcrumbs
+                            aria-label="Breadcrumb"
+                            className={clsx("hidden sm:flex")}
+                        >
                             <BreadcrumbItem
                                 href={route("roles.index") as string}
                             >
