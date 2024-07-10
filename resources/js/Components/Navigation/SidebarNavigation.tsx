@@ -76,7 +76,11 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({}) => {
                                 </li>
                                 <li>
                                     <SidebarLink
-                                        href="#"
+                                        isActive={
+                                            component === "Users/Index" ||
+                                            url.includes("users")
+                                        }
+                                        href={route("users.index") as string}
                                         startContent={
                                             <UsersIcon className="size-6" />
                                         }
