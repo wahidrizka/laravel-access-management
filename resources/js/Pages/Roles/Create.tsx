@@ -66,7 +66,7 @@ export default function CreateRole() {
                                     "text-2xl font-bold leading-7 text-slate-900 sm:truncate sm:text-3xl sm:tracking-tight"
                                 )}
                             >
-                                Create new roles
+                                Create new role
                             </h2>
                         </div>
                     </div>

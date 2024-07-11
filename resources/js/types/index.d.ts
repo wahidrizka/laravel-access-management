@@ -1,8 +1,10 @@
-export interface User {
+export interface UserTypes {
     id: number;
     name: string;
     email: string;
     email_verified_at: string;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface PermissionTypes {
@@ -27,10 +29,14 @@ export interface RoleHasPermissions {
     permission_name: string;
 }
 
+export interface RolesForUsers {
+    [key: string]: string;
+}
+
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
 > = T & {
     auth: {
-        user: User;
+        user: UserTypes;
     };
 };

@@ -8,15 +8,19 @@ interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
     title: string;
     description?: string;
     href?: string;
+    buttonText?: string;
 }
 
 export const EmptyState: React.FC<EmptyStateProps> = ({
+    className,
     title,
     description,
     href,
+    buttonText,
+    ...rest
 }: EmptyStateProps) => {
     return (
-        <div className={clsx("text-center")}>
+        <div className={clsx("text-center", className)} {...rest}>
             <FileIcon className={clsx("mx-auto size-28")} />
             <h3 className={clsx("mt-2 text-sm font-semibold text-slate-900")}>
                 {title}
@@ -35,7 +39,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
                         <PlusIcon className={clsx("size-5 !-ml-0.5")} />
                     }
                 >
-                    New role
+                    {buttonText || "Add New"}
                 </Button>
             </div>
         </div>
