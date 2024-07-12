@@ -230,6 +230,7 @@ export default function Roles({ roles }: { roles: RoleTypes[] }) {
 
                                         <Modal
                                             as="form"
+                                            backdrop="blur"
                                             onSubmit={handleDelete}
                                             isOpen={isOpen}
                                             onOpenChange={onOpenChange}

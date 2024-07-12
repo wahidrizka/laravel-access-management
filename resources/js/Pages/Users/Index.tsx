@@ -2,7 +2,7 @@ import { EmptyState } from "@/Components";
 import { Layout } from "@/Layouts";
 import { UserTypes } from "@/types";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import {
     Button,
     Chip,
@@ -10,10 +10,41 @@ import {
     DropdownItem,
     DropdownMenu,
     DropdownTrigger,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    useDisclosure,
 } from "@nextui-org/react";
 import clsx from "clsx";
+import { useState } from "react";
 
 export default function Users({ users }: { users: UserTypes[] }) {
+    const [userId, setUserId] = useState<number | null>(null);
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const {
+        setData,
+        delete: destroy,
+        processing,
+    } = useForm({
+        id: userId,
+    });
+    const handleOpen = (userId: number) => {
+        setUserId(userId);
+        setData("id", userId);
+        onOpen();
+    };
+    const handleDelete = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        destroy(route("users.destroy", { id: userId }), {
+            onSuccess: () => {
+                onOpenChange();
+                setUserId(null);
+            },
+        });
+    };
+
     return (
         <Layout>
             <Head title="Users" />
@@ -190,12 +221,6 @@ export default function Users({ users }: { users: UserTypes[] }) {
                                                             <DropdownMenu>
                                                                 <DropdownItem
                                                                     as={Link}
-                                                                    key="view"
-                                                                >
-                                                                    View
-                                                                </DropdownItem>
-                                                                <DropdownItem
-                                                                    as={Link}
                                                                     key="edit"
                                                                     href={
                                                                         route(
@@ -210,11 +235,78 @@ export default function Users({ users }: { users: UserTypes[] }) {
                                                                     key={`delete-${user.id}`}
                                                                     className="text-danger"
                                                                     color="danger"
+                                                                    onClick={() =>
+                                                                        handleOpen(
+                                                                            user.id
+                                                                        )
+                                                                    }
                                                                 >
                                                                     Delete
                                                                 </DropdownItem>
                                                             </DropdownMenu>
                                                         </Dropdown>
+
+                                                        <>
+                                                            <Modal
+                                                                as="form"
+                                                                backdrop="blur"
+                                                                onSubmit={
+                                                                    handleDelete
+                                                                }
+                                                                isOpen={isOpen}
+                                                                onOpenChange={
+                                                                    onOpenChange
+                                                                }
+                                                            >
+                                                                <ModalContent>
+                                                                    {(
+                                                                        onClose
+                                                                    ) => (
+                                                                        <>
+                                                                            <ModalHeader
+                                                                                className={clsx(
+                                                                                    "flex flex-col gap-1"
+                                                                                )}
+                                                                            >
+                                                                                Delete
+                                                                                this
+                                                                                user
+                                                                            </ModalHeader>
+                                                                            <ModalBody>
+                                                                                Are
+                                                                                you
+                                                                                sure
+                                                                                you
+                                                                                want
+                                                                                to
+                                                                                delete
+                                                                                this
+                                                                                user?
+                                                                            </ModalBody>
+                                                                            <ModalFooter>
+                                                                                <Button
+                                                                                    variant="light"
+                                                                                    onPress={
+                                                                                        onClose
+                                                                                    }
+                                                                                >
+                                                                                    Cancel
+                                                                                </Button>
+                                                                                <Button
+                                                                                    type="submit"
+                                                                                    color="danger"
+                                                                                    isLoading={
+                                                                                        processing
+                                                                                    }
+                                                                                >
+                                                                                    Delete
+                                                                                </Button>
+                                                                            </ModalFooter>
+                                                                        </>
+                                                                    )}
+                                                                </ModalContent>
+                                                            </Modal>
+                                                        </>
                                                     </td>
                                                 </tr>
                                             ))}
