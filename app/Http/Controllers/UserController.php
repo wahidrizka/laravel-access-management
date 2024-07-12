@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::get();
+        $users = User::with('roles')->get();
 
         return Inertia::render('Users/Index', [
             'users' => $users,
@@ -35,7 +35,7 @@ class UserController extends Controller
             'name' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
-            'roles' => ['required'],
+            'roles' => ['required', 'array'],
         ]);
 
         $user = User::create([

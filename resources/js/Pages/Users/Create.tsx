@@ -14,17 +14,21 @@ import {
     SelectItem,
     Button,
     Link,
+    Selection,
+    Chip,
 } from "@nextui-org/react";
 import clsx from "clsx";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function CreateUser({ roles }: { roles: RolesForUsers }) {
     const { data, setData, post, processing, errors, clearErrors } = useForm({
         name: "",
         email: "",
-        roles: "",
+        roles: [] as string[],
         password: "",
     });
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [selectedRoles, setSelectedRoles] = useState<Selection>(new Set([]));
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         clearErrors("name");
@@ -34,16 +38,13 @@ export default function CreateUser({ roles }: { roles: RolesForUsers }) {
         clearErrors("email");
         setData("email", e.target.value);
     };
-    const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        clearErrors("roles");
-        setData("roles", e.target.value);
-    };
+    useEffect(() => {
+        setData("roles", Array.from(selectedRoles as string));
+    }, [selectedRoles]);
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         clearErrors("password");
         setData("password", e.target.value);
     };
-
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const validateEmail = (email: string) =>
         email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
@@ -65,6 +66,14 @@ export default function CreateUser({ roles }: { roles: RolesForUsers }) {
 
     const togglePasswordVisibility = () => {
         setIsPasswordVisible((prev) => !prev);
+    };
+
+    const handleClose = (roleToRemove: string) => {
+        setSelectedRoles((prev) => {
+            const newSelectedRoles = new Set(prev);
+            newSelectedRoles.delete(roleToRemove);
+            return newSelectedRoles;
+        });
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -175,14 +184,45 @@ export default function CreateUser({ roles }: { roles: RolesForUsers }) {
 
                                 <div className={clsx("sm:col-span-3")}>
                                     <Select
-                                        labelPlacement="outside"
-                                        label="Role"
-                                        placeholder="Select an role"
+                                        classNames={{
+                                            trigger: "py-2 px-4",
+                                        }}
                                         variant="bordered"
-                                        selectedKeys={[data.roles]}
-                                        onChange={handleRoleChange}
+                                        aria-label="Role"
+                                        labelPlacement="outside"
+                                        selectionMode="multiple"
+                                        isMultiline
+                                        placeholder="Select an role"
+                                        selectedKeys={selectedRoles}
+                                        onSelectionChange={setSelectedRoles}
                                         isInvalid={!!errors.roles}
                                         errorMessage={errors.roles}
+                                        renderValue={() => {
+                                            return (
+                                                <div
+                                                    className={clsx(
+                                                        "flex flex-wrap gap-2"
+                                                    )}
+                                                >
+                                                    {Array.from(
+                                                        selectedRoles
+                                                    ).map((item, index) => (
+                                                        <Chip
+                                                            key={index}
+                                                            variant="bordered"
+                                                            color="secondary"
+                                                            onClose={() =>
+                                                                handleClose(
+                                                                    item as string
+                                                                )
+                                                            }
+                                                        >
+                                                            {item}
+                                                        </Chip>
+                                                    ))}
+                                                </div>
+                                            );
+                                        }}
                                     >
                                         {Object.keys(roles).map((key) => (
                                             <SelectItem
@@ -250,7 +290,11 @@ export default function CreateUser({ roles }: { roles: RolesForUsers }) {
                             >
                                 Cancel
                             </Button>
-                            <Button type="submit" color="primary">
+                            <Button
+                                type="submit"
+                                color="primary"
+                                isLoading={processing}
+                            >
                                 Save
                             </Button>
                         </div>

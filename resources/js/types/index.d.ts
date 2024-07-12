@@ -2,6 +2,7 @@ export interface UserTypes {
     id: number;
     name: string;
     email: string;
+    roles: RolesForUsers[];
     email_verified_at: string;
     created_at: string;
     updated_at: string;

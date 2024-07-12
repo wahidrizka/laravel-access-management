@@ -1,8 +1,16 @@
 import { EmptyState } from "@/Components";
 import { Layout } from "@/Layouts";
 import { UserTypes } from "@/types";
+import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Head, Link } from "@inertiajs/react";
-import { Button } from "@nextui-org/react";
+import {
+    Button,
+    Chip,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownTrigger,
+} from "@nextui-org/react";
 import clsx from "clsx";
 
 export default function Users({ users }: { users: UserTypes[] }) {
@@ -106,8 +114,8 @@ export default function Users({ users }: { users: UserTypes[] }) {
                                         </thead>
 
                                         <tbody>
-                                            {users.map((user, index) => (
-                                                <tr key={index}>
+                                            {users.map((user) => (
+                                                <tr key={user.id}>
                                                     <td
                                                         className={clsx(
                                                             "whitespace-nowrap border-b border-slate-200 py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-6 lg:pl-8"
@@ -131,22 +139,77 @@ export default function Users({ users }: { users: UserTypes[] }) {
                                                     </td>
                                                     <td
                                                         className={clsx(
-                                                            "whitespace-nowrap border-b border-slate-300 px-3 py-4 text-sm text-slate-500"
+                                                            "border-b border-slate-300 px-3 py-4"
                                                         )}
                                                     >
-                                                        Super admin
+                                                        <div
+                                                            className={clsx(
+                                                                "flex flex-start gap-x-2"
+                                                            )}
+                                                        >
+                                                            {user.roles.map(
+                                                                (
+                                                                    role,
+                                                                    roleIdx
+                                                                ) => (
+                                                                    <Chip
+                                                                        key={
+                                                                            roleIdx
+                                                                        }
+                                                                        size="sm"
+                                                                        variant="bordered"
+                                                                        color="success"
+                                                                    >
+                                                                        {
+                                                                            role.name
+                                                                        }
+                                                                    </Chip>
+                                                                )
+                                                            )}
+                                                        </div>
                                                     </td>
                                                     <td
                                                         className={clsx(
                                                             "relative whitespace-nowrap border-b border-slate-300 py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-8 lg:pr-8"
                                                         )}
                                                     >
-                                                        <Button
-                                                            color="warning"
-                                                            variant="light"
-                                                        >
-                                                            Edit
-                                                        </Button>
+                                                        <Dropdown>
+                                                            <DropdownTrigger>
+                                                                <button
+                                                                    className={clsx(
+                                                                        "-mx-2.5 block p-2.5 text-slate-500"
+                                                                    )}
+                                                                >
+                                                                    <EllipsisVerticalIcon
+                                                                        className={clsx(
+                                                                            "size-5"
+                                                                        )}
+                                                                    />
+                                                                </button>
+                                                            </DropdownTrigger>
+                                                            <DropdownMenu>
+                                                                <DropdownItem
+                                                                    as={Link}
+                                                                    key="view"
+                                                                >
+                                                                    Roles and
+                                                                    permissions
+                                                                </DropdownItem>
+                                                                <DropdownItem
+                                                                    as={Link}
+                                                                    key="edit"
+                                                                >
+                                                                    Edit
+                                                                </DropdownItem>
+                                                                <DropdownItem
+                                                                    key={`delete-${user.id}`}
+                                                                    className="text-danger"
+                                                                    color="danger"
+                                                                >
+                                                                    Delete
+                                                                </DropdownItem>
+                                                            </DropdownMenu>
+                                                        </Dropdown>
                                                     </td>
                                                 </tr>
                                             ))}
