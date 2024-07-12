@@ -190,7 +190,7 @@ export default function Edit({
                                             "mb-2 text-foreground-700 text-small"
                                         )}
                                     >
-                                        With placeholder
+                                        Roles for user
                                     </h3>
                                     <Select
                                         classNames={{

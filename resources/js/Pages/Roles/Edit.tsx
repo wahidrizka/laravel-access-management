@@ -1,14 +1,51 @@
 import { Layout } from "@/Layouts";
-import { RoleTypes } from "@/types";
+import { PermissionTypes, RoleTypes } from "@/types";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { Head, Link, useForm } from "@inertiajs/react";
-import { BreadcrumbItem, Breadcrumbs, Button, Input } from "@nextui-org/react";
+import {
+    BreadcrumbItem,
+    Breadcrumbs,
+    Button,
+    Chip,
+    Input,
+    Select,
+    Selection,
+    SelectItem,
+} from "@nextui-org/react";
 import clsx from "clsx";
+import { useEffect, useState } from "react";
 
-export default function EditRole({ role }: { role: RoleTypes }) {
+export default function EditRole({
+    role,
+    permissions,
+    hasPermissions,
+}: {
+    role: RoleTypes;
+    hasPermissions: PermissionTypes[];
+    permissions: PermissionTypes[];
+}) {
+    const initialSelectedPermission = new Set(
+        hasPermissions.map((hp) => hp.name)
+    );
+    const [selectedPermission, setSelectedPermission] = useState<Selection>(
+        new Set(initialSelectedPermission)
+    );
     const { data, setData, put, processing, errors, clearErrors } = useForm({
         name: role.name,
+        permissions: [] as string[],
     });
+
+    useEffect(() => {
+        setData("permissions", Array.from(selectedPermission as string));
+    }, [selectedPermission]);
+
+    const handleRemovePermission = (permissionToRemove: string) => {
+        setSelectedPermission((prev) => {
+            const newSelectedPermission = new Set(prev);
+            newSelectedPermission.delete(permissionToRemove);
+            return newSelectedPermission;
+        });
+    };
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         clearErrors("name");
@@ -83,16 +120,75 @@ export default function EditRole({ role }: { role: RoleTypes }) {
                                 "grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
                             )}
                         >
-                            <Input
-                                className={clsx("sm:col-span-4")}
-                                type="text"
-                                variant="bordered"
-                                label="Role name"
-                                value={data.name}
-                                onChange={handleNameChange}
-                                isInvalid={!!errors.name}
-                                errorMessage={errors.name}
-                            />
+                            <div className={clsx("sm:col-span-3")}>
+                                <Input
+                                    className={clsx("sm:col-span-4")}
+                                    type="text"
+                                    variant="bordered"
+                                    label="Role name"
+                                    value={data.name}
+                                    onChange={handleNameChange}
+                                    isInvalid={!!errors.name}
+                                    errorMessage={errors.name}
+                                />
+                            </div>
+
+                            <div className={clsx("sm:col-span-4")}>
+                                <h3
+                                    className={clsx(
+                                        "mb-2 text-foreground-700 text-small"
+                                    )}
+                                >
+                                    Permission for role
+                                </h3>
+                                <Select
+                                    classNames={{
+                                        trigger: "py-2 px-4",
+                                    }}
+                                    aria-labelledby="Permission for role"
+                                    variant="bordered"
+                                    labelPlacement="outside"
+                                    selectionMode="multiple"
+                                    isMultiline
+                                    placeholder="Select an permission"
+                                    selectedKeys={selectedPermission}
+                                    onSelectionChange={setSelectedPermission}
+                                    isInvalid={!!errors.permissions}
+                                    errorMessage={errors.permissions}
+                                    renderValue={() => {
+                                        return (
+                                            <div
+                                                className={clsx(
+                                                    "flex flex-wrap gap-2"
+                                                )}
+                                            >
+                                                {Array.from(
+                                                    selectedPermission
+                                                ).map((item, index) => (
+                                                    <Chip
+                                                        key={index}
+                                                        variant="bordered"
+                                                        color="secondary"
+                                                        onClose={() =>
+                                                            handleRemovePermission(
+                                                                item as string
+                                                            )
+                                                        }
+                                                    >
+                                                        {item}
+                                                    </Chip>
+                                                ))}
+                                            </div>
+                                        );
+                                    }}
+                                >
+                                    {permissions.map((permission) => (
+                                        <SelectItem key={permission.name}>
+                                            {permission.name}
+                                        </SelectItem>
+                                    ))}
+                                </Select>
+                            </div>
                         </div>
                     </div>
                     <div

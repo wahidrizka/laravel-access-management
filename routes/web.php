@@ -11,7 +11,7 @@ use Inertia\Inertia;
 Route::resource('/permissions', PermissionController::class);
 
 Route::resource('/roles', RoleController::class);
-Route::put('/roles/{roleId}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
+// Route::put('/roles/{roleId}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
 
 Route::resource('/users', UserController::class);
 

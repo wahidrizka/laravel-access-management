@@ -32,9 +32,9 @@ export default function Roles({ roles }: { roles: RoleTypes[] }) {
         id: roleId,
     });
 
-    const handleOpen = (id: number) => {
-        setRoleId(id);
-        setData({ id });
+    const handleOpen = (roleId: number) => {
+        setRoleId(roleId);
+        setData("id", roleId);
         onOpen();
     };
 
@@ -187,18 +187,6 @@ export default function Roles({ roles }: { roles: RoleTypes[] }) {
                                                         </button>
                                                     </DropdownTrigger>
                                                     <DropdownMenu>
-                                                        <DropdownItem
-                                                            as={Link}
-                                                            key="view"
-                                                            href={
-                                                                route(
-                                                                    "roles.show",
-                                                                    role.id
-                                                                ) as string
-                                                            }
-                                                        >
-                                                            View permissions
-                                                        </DropdownItem>
                                                         <DropdownItem
                                                             as={Link}
                                                             key="edit"

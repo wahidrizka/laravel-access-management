@@ -40,20 +40,28 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
+        $hasPermissions = $role->getAllPermissions();
+        $permissions = Permission::get();
+
         return Inertia::render('Roles/Edit', [
-            'role' => $role
+            'role' => $role,
+            'hasPermissions' => $hasPermissions,
+            'permissions' => $permissions
         ]);
     }
 
     public function update(Request $request, Role $role)
     {
         $request->validate([
-            'name' => ['required', 'string', 'unique:roles,name,' . $role->id]
+            'name' => ['required', 'string', 'unique:roles,name,' . $role->id],
+            'permissions' => ['required', 'array']
         ]);
 
         $role->update([
             'name' => $request->name
         ]);
+
+        $role->syncPermissions($request->permissions);
 
         return Redirect::route('roles.index');
     }
