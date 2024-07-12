@@ -89,6 +89,6 @@ class UserController extends Controller
         $user->update($data);
         $user->syncRoles($request->roles);
 
-        return Redirect::back();
+        return Redirect::route('users.index');
     }
 }
