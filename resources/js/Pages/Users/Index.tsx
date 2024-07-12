@@ -192,12 +192,17 @@ export default function Users({ users }: { users: UserTypes[] }) {
                                                                     as={Link}
                                                                     key="view"
                                                                 >
-                                                                    Roles and
-                                                                    permissions
+                                                                    View
                                                                 </DropdownItem>
                                                                 <DropdownItem
                                                                     as={Link}
                                                                     key="edit"
+                                                                    href={
+                                                                        route(
+                                                                            "users.edit",
+                                                                            user.id
+                                                                        ) as string
+                                                                    }
                                                                 >
                                                                     Edit
                                                                 </DropdownItem>

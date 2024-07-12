@@ -30,7 +30,7 @@ export default function ShowRole({
     const [selectedPermissions, setSelectedPermissions] = useState<Selection>(
         new Set(initialSelectedPermissions)
     );
-    const { setData, put, processing, errors, clearErrors } = useForm({
+    const { data, setData, put, processing, errors, clearErrors } = useForm({
         permissions: [] as string[],
     });
 
@@ -48,7 +48,8 @@ export default function ShowRole({
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        put(route("roles.permissions.update", role.id));
+        console.info(data);
+        // put(route("roles.permissions.update", role.id));
     };
 
     return (

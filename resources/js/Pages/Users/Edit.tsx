@@ -1,12 +1,12 @@
 import { Layout } from "@/Layouts";
 import { validateEmail, validatePassword } from "@/libs/utils";
-import { RolesForUsers, RoleTypes } from "@/types";
+import { RolesForUsers, RoleTypes, UserHasRoles, UserTypes } from "@/types";
 import {
     ChevronLeftIcon,
     EyeIcon,
     EyeSlashIcon,
 } from "@heroicons/react/20/solid";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import {
     Breadcrumbs,
     BreadcrumbItem,
@@ -14,22 +14,32 @@ import {
     Select,
     SelectItem,
     Button,
-    Link,
-    Selection,
     Chip,
+    Selection,
 } from "@nextui-org/react";
 import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
 
-export default function CreateUser({ roles }: { roles: RolesForUsers }) {
-    const { data, setData, post, processing, errors, clearErrors } = useForm({
-        name: "",
-        email: "",
-        roles: [] as string[],
+export default function Edit({
+    user,
+    roles,
+    userHasRoles,
+}: {
+    user: UserTypes;
+    roles: RoleTypes[];
+    userHasRoles: UserHasRoles[];
+}) {
+    const initialSelectedRoles = new Set(userHasRoles.map((ur) => ur.name));
+    const [selectedRoles, setSelectedRoles] = useState<Selection>(
+        new Set(initialSelectedRoles)
+    );
+    const { data, setData, put, processing, errors, clearErrors } = useForm({
+        name: user.name,
+        email: user.email,
         password: "",
+        roles: [] as string[],
     });
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const [selectedRoles, setSelectedRoles] = useState<Selection>(new Set([]));
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         clearErrors("name");
@@ -49,13 +59,10 @@ export default function CreateUser({ roles }: { roles: RolesForUsers }) {
 
     const isInvalidEmail = useMemo(() => {
         if (data.email === "") return false;
-
         return validateEmail(data.email) ? false : true;
     }, [data.email]);
-
     const isInvalidPassword = useMemo(() => {
         if (data.password === "") return false;
-
         return validatePassword(data.password) ? false : true;
     }, [data.password]);
 
@@ -63,7 +70,7 @@ export default function CreateUser({ roles }: { roles: RolesForUsers }) {
         setIsPasswordVisible((prev) => !prev);
     };
 
-    const handleClose = (roleToRemove: string) => {
+    const handleRemoveRole = (roleToRemove: string) => {
         setSelectedRoles((prev) => {
             const newSelectedRoles = new Set(prev);
             newSelectedRoles.delete(roleToRemove);
@@ -73,12 +80,12 @@ export default function CreateUser({ roles }: { roles: RolesForUsers }) {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        post(route("users.store"));
+        put(route("users.update", user.id));
     };
 
     return (
         <Layout>
-            <Head title="Create User" />
+            <Head title={`Edit ${user.name}`} />
             <div className={clsx("mx-auto max-w-7xl py-6 px-6 lg:px-8")}>
                 <div></div>
 
@@ -109,7 +116,7 @@ export default function CreateUser({ roles }: { roles: RolesForUsers }) {
                             >
                                 Users
                             </BreadcrumbItem>
-                            <BreadcrumbItem>Create</BreadcrumbItem>
+                            <BreadcrumbItem>{user.name}</BreadcrumbItem>
                         </Breadcrumbs>
                     </div>
 
@@ -124,7 +131,7 @@ export default function CreateUser({ roles }: { roles: RolesForUsers }) {
                                     "text-2xl font-bold leading-7 text-slate-900 sm:truncate sm:text-3xl sm:tracking-tight"
                                 )}
                             >
-                                Create new user
+                                Edit user
                             </h2>
                         </div>
                     </div>
@@ -178,12 +185,19 @@ export default function CreateUser({ roles }: { roles: RolesForUsers }) {
                                 </div>
 
                                 <div className={clsx("sm:col-span-3")}>
+                                    <h3
+                                        className={clsx(
+                                            "mb-2 text-foreground-700 text-small"
+                                        )}
+                                    >
+                                        With placeholder
+                                    </h3>
                                     <Select
                                         classNames={{
                                             trigger: "py-2 px-4",
                                         }}
+                                        aria-labelledby="Roles for user"
                                         variant="bordered"
-                                        aria-label="Role"
                                         labelPlacement="outside"
                                         selectionMode="multiple"
                                         isMultiline
@@ -207,7 +221,7 @@ export default function CreateUser({ roles }: { roles: RolesForUsers }) {
                                                             variant="bordered"
                                                             color="secondary"
                                                             onClose={() =>
-                                                                handleClose(
+                                                                handleRemoveRole(
                                                                     item as string
                                                                 )
                                                             }
@@ -219,19 +233,18 @@ export default function CreateUser({ roles }: { roles: RolesForUsers }) {
                                             );
                                         }}
                                     >
-                                        {Object.keys(roles).map((key) => (
+                                        {roles.map((role) => (
                                             <SelectItem
-                                                key={key}
-                                                value={roles[key]}
+                                                key={role.name}
+                                                value={role.name}
                                             >
-                                                {roles[key]}
+                                                {role.name}
                                             </SelectItem>
                                         ))}
                                     </Select>
                                 </div>
                                 <div className={clsx("sm:col-span-4")}>
                                     <Input
-                                        isRequired
                                         variant="bordered"
                                         label="Password"
                                         labelPlacement="outside"

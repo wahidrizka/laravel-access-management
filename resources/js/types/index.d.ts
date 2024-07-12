@@ -8,6 +8,16 @@ export interface UserTypes {
     updated_at: string;
 }
 
+export interface UserHasRoles {
+    role_id: number;
+    model_id: number;
+    name: string;
+}
+
+export interface RolesForUsers {
+    [key: string]: string;
+}
+
 export interface PermissionTypes {
     id: number;
     name: string;
@@ -28,10 +38,6 @@ export interface RoleHasPermissions {
     permission_id: number;
     role_id: number;
     permission_name: string;
-}
-
-export interface RolesForUsers {
-    [key: string]: string;
 }
 
 export type PageProps<
