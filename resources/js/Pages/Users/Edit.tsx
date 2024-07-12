@@ -1,6 +1,6 @@
 import { Layout } from "@/Layouts";
 import { validateEmail, validatePassword } from "@/libs/utils";
-import { RolesForUsers, RoleTypes, UserHasRoles, UserTypes } from "@/types";
+import { RolesForUsers, RoleTypes, UserTypes } from "@/types";
 import {
     ChevronLeftIcon,
     EyeIcon,
@@ -23,13 +23,13 @@ import { useEffect, useMemo, useState } from "react";
 export default function Edit({
     user,
     roles,
-    userHasRoles,
+    hasRoles,
 }: {
     user: UserTypes;
     roles: RoleTypes[];
-    userHasRoles: UserHasRoles[];
+    hasRoles: RoleTypes[];
 }) {
-    const initialSelectedRoles = new Set(userHasRoles.map((ur) => ur.name));
+    const initialSelectedRoles = new Set(hasRoles.map((ur) => ur.name));
     const [selectedRoles, setSelectedRoles] = useState<Selection>(
         new Set(initialSelectedRoles)
     );

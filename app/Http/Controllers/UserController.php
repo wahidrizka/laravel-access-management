@@ -54,7 +54,7 @@ class UserController extends Controller
     {
         $roles = Role::get();
 
-        $userHasRoles = DB::table('model_has_roles as mhr')
+        $hasRoles = DB::table('model_has_roles as mhr')
             ->join("roles as r", "r.id", "=", "mhr.role_id")
             ->where("mhr.model_id", $user->id)
             ->select("mhr.role_id", "mhr.model_id", "r.name")
@@ -63,7 +63,7 @@ class UserController extends Controller
         return Inertia::render('Users/Edit', [
             'user' => $user,
             'roles' => $roles,
-            'userHasRoles' => $userHasRoles,
+            'hasRoles' => $hasRoles,
         ]);
     }
 
