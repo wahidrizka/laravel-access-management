@@ -6,7 +6,7 @@ import {
     BellIcon,
     ChevronDownIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import {
     Dropdown,
     DropdownItem,
@@ -21,6 +21,11 @@ interface DashboardHeaderProps {
 }
 
 export const DashboardHeader: React.FC<DashboardHeaderProps> = ({ user }) => {
+    const { post } = useForm();
+
+    const handleLogout = () => {
+        post(route("logout"));
+    };
     return (
         <div
             className={clsx(
@@ -124,9 +129,8 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({ user }) => {
                                 Profile
                             </DropdownItem>
                             <DropdownItem
+                                onClick={handleLogout}
                                 key="logout"
-                                as={Link}
-                                href={route("logout") as string}
                                 className={clsx("text-danger")}
                                 color="danger"
                             >

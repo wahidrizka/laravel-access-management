@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -11,6 +12,14 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view roles', ['only' => ['index']]);
+        $this->middleware('permission:create roles', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit roles', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete roles', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $roles = Role::all();

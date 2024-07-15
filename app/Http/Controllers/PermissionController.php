@@ -3,12 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view permissions', ['only' => ['index']]);
+        $this->middleware('permission:create permissions', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit permissions', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete permissions', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $permissions = Permission::all();
