@@ -1,15 +1,14 @@
 import { Layout } from "@/Layouts";
-import { PermissionTypes } from "@/types";
+import { PageProps, PermissionTypes } from "@/types";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { BreadcrumbItem, Breadcrumbs, Button, Input } from "@nextui-org/react";
 import clsx from "clsx";
 
 export default function EditPermission({
+    auth,
     permission,
-}: {
-    permission: PermissionTypes;
-}) {
+}: PageProps<{ permission: PermissionTypes }>) {
     const { data, setData, put, processing, errors, clearErrors } = useForm({
         name: permission.name,
     });
@@ -25,7 +24,7 @@ export default function EditPermission({
     };
 
     return (
-        <Layout>
+        <Layout user={auth.user}>
             <Head title="Edit permission" />
             <div className={clsx("mx-auto max-w-7xl py-6 sm:px-6 lg:px-8")}>
                 <div></div>

@@ -15,3 +15,8 @@ export const validateEmail = (email: string) =>
 
 export const validatePassword = (password: string) =>
     password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/);
+
+export const getFirstWord = (string: string) => {
+    let spaceIndex = string.indexOf(" ");
+    return spaceIndex === -1 ? string : string.substring(0, spaceIndex);
+};

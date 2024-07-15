@@ -1,6 +1,6 @@
 import { Layout } from "@/Layouts";
 import { validateEmail, validatePassword } from "@/libs/utils";
-import { RolesForUsers, RoleTypes } from "@/types";
+import { PageProps, RolesForUsers, RoleTypes } from "@/types";
 import {
     ChevronLeftIcon,
     EyeIcon,
@@ -21,7 +21,10 @@ import {
 import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
 
-export default function CreateUser({ roles }: { roles: RolesForUsers }) {
+export default function CreateUser({
+    auth,
+    roles,
+}: PageProps<{ roles: RolesForUsers }>) {
     const { data, setData, post, processing, errors, clearErrors } = useForm({
         name: "",
         email: "",
@@ -77,7 +80,7 @@ export default function CreateUser({ roles }: { roles: RolesForUsers }) {
     };
 
     return (
-        <Layout>
+        <Layout user={auth.user}>
             <Head title="Create User" />
             <div className={clsx("mx-auto max-w-7xl py-6 px-6 lg:px-8")}>
                 <div></div>

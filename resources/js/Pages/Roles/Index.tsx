@@ -1,7 +1,7 @@
 import { EmptyState } from "@/Components";
 import { Layout } from "@/Layouts";
 import { capitalizeFirstLetter, formatDate } from "@/libs/utils";
-import { RoleTypes } from "@/types";
+import { PageProps, RoleTypes } from "@/types";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
@@ -21,7 +21,10 @@ import {
 import clsx from "clsx";
 import { useState } from "react";
 
-export default function Roles({ roles }: { roles: RoleTypes[] }) {
+export default function Roles({
+    auth,
+    roles,
+}: PageProps<{ roles: RoleTypes[] }>) {
     const [roleId, setRoleId] = useState<number | null>(null);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const {
@@ -48,7 +51,7 @@ export default function Roles({ roles }: { roles: RoleTypes[] }) {
         });
     };
     return (
-        <Layout>
+        <Layout user={auth.user}>
             <Head title="Roles" />
             <div className={clsx("mx-auto max-w-7xl py-6 sm:px-6 lg:px-8")}>
                 <div className={clsx("mx-auto max-w-none")}>

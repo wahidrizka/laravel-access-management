@@ -1,5 +1,5 @@
 import { Layout } from "@/Layouts";
-import { PermissionTypes, RoleTypes } from "@/types";
+import { PageProps, PermissionTypes, RoleTypes } from "@/types";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
@@ -16,14 +16,15 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 export default function EditRole({
+    auth,
     role,
     permissions,
     hasPermissions,
-}: {
+}: PageProps<{
     role: RoleTypes;
     hasPermissions: PermissionTypes[];
     permissions: PermissionTypes[];
-}) {
+}>) {
     const initialSelectedPermission = new Set(
         hasPermissions.map((hp) => hp.name)
     );
@@ -58,7 +59,7 @@ export default function EditRole({
     };
 
     return (
-        <Layout>
+        <Layout user={auth.user}>
             <Head title="Edit role" />
             <div className={clsx("mx-auto max-w-7xl py-6 sm:px-6 lg:px-8")}>
                 <div></div>

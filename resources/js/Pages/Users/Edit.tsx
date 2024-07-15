@@ -1,6 +1,6 @@
 import { Layout } from "@/Layouts";
 import { validateEmail, validatePassword } from "@/libs/utils";
-import { RolesForUsers, RoleTypes, UserTypes } from "@/types";
+import { PageProps, RolesForUsers, RoleTypes, UserTypes } from "@/types";
 import {
     ChevronLeftIcon,
     EyeIcon,
@@ -21,14 +21,15 @@ import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
 
 export default function Edit({
+    auth,
     user,
     roles,
     hasRoles,
-}: {
+}: PageProps<{
     user: UserTypes;
     roles: RoleTypes[];
     hasRoles: RoleTypes[];
-}) {
+}>) {
     const initialSelectedRoles = new Set(hasRoles.map((ur) => ur.name));
     const [selectedRoles, setSelectedRoles] = useState<Selection>(
         new Set(initialSelectedRoles)
@@ -84,7 +85,7 @@ export default function Edit({
     };
 
     return (
-        <Layout>
+        <Layout user={auth.user}>
             <Head title={`Edit ${user.name}`} />
             <div className={clsx("mx-auto max-w-7xl py-6 px-6 lg:px-8")}>
                 <div></div>

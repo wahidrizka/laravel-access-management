@@ -1,7 +1,7 @@
 import { EmptyState } from "@/Components";
 import { Layout } from "@/Layouts";
 import { capitalizeFirstLetter, formatDate } from "@/libs/utils";
-import { PermissionTypes } from "@/types";
+import { PageProps, PermissionTypes } from "@/types";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
@@ -22,10 +22,11 @@ import clsx from "clsx";
 import { useState } from "react";
 
 export default function Permissions({
+    auth,
     permissions,
-}: {
+}: PageProps<{
     permissions: PermissionTypes[];
-}) {
+}>) {
     const [permissionId, setPermissionId] = useState<number | null>(null);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const {
@@ -52,7 +53,7 @@ export default function Permissions({
         });
     };
     return (
-        <Layout>
+        <Layout user={auth.user}>
             <Head title="Permissions" />
             <div className={clsx("mx-auto max-w-7xl py-6 sm:px-6 lg:px-8")}>
                 <div className={clsx("mx-auto max-w-none")}>

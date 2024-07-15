@@ -1,6 +1,6 @@
 import { EmptyState } from "@/Components";
 import { Layout } from "@/Layouts";
-import { UserTypes } from "@/types";
+import { PageProps, UserTypes } from "@/types";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
@@ -20,7 +20,10 @@ import {
 import clsx from "clsx";
 import { useState } from "react";
 
-export default function Users({ users }: { users: UserTypes[] }) {
+export default function Users({
+    users,
+    auth,
+}: PageProps<{ users: UserTypes[] }>) {
     const [userId, setUserId] = useState<number | null>(null);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const {
@@ -46,7 +49,7 @@ export default function Users({ users }: { users: UserTypes[] }) {
     };
 
     return (
-        <Layout>
+        <Layout user={auth.user}>
             <Head title="Users" />
             <div className={clsx("p-8 bg-white")}>
                 <div className={clsx("px-4 sm:px-6 lg:px-8")}>

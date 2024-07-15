@@ -1,10 +1,11 @@
 import { Layout } from "@/Layouts";
+import { PageProps } from "@/types";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { BreadcrumbItem, Breadcrumbs, Button, Input } from "@nextui-org/react";
 import clsx from "clsx";
 
-export default function CreateRole() {
+export default function CreateRole({ auth }: PageProps) {
     const { data, setData, post, processing, errors, clearErrors } = useForm({
         name: "",
     });
@@ -19,7 +20,7 @@ export default function CreateRole() {
         post(route("roles.store"));
     };
     return (
-        <Layout>
+        <Layout user={auth.user}>
             <Head title="Create Role" />
             <div className={clsx("mx-auto max-w-7xl py-6 px-6 lg:px-8")}>
                 <div></div>
